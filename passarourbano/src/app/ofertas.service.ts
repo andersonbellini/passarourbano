@@ -65,11 +65,21 @@ export class OfertasService {
       let deu_erro_na_api= true; // é o retorno da api do servidor
 
       if (deu_erro_na_api){
-            resolve(this.ofertas);
+           // resolve(this.ofertas);
+            setTimeout(()=>{resolve(this.ofertas)}, 3000); //Simulando delay de processamento
       }
       else{
             reject({codigo_erro: 404, mensagem_erro: 'Servidor não encontrado'});
       }
+    }).then((ofertas: Oferta[]) => {
+      //faz mais algumas tratativas antes de devolver a chamada!
+      console.log("Primeiro THEN");
+      return ofertas;
+    })
+    .then((ofertas: Oferta[]) => {
+      //faz mais outras tratativas depois chamada!
+      console.log("Segundo THEN");
+      return ofertas;
     });
   }
 }
