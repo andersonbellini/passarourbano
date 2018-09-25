@@ -62,7 +62,7 @@ export class OfertasService {
     return new Promise((resolve, reject)=>{
       //Processamento pela API
       console.log("passou por aqui? ");
-      let deu_erro_na_api= false; // é o retorno da api do servidor
+      let deu_erro_na_api= true; // é o retorno da api do servidor
 
       if (deu_erro_na_api){
             resolve(this.ofertas);
