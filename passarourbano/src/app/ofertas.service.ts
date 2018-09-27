@@ -6,6 +6,7 @@ import { Oferta } from './shared/oferta.model';
 export class OfertasService {
 
   constructor(private http: Http){}
+
   //public ofertas: Array<Oferta> = [
   public ofertas: Oferta[] = [
     {
@@ -70,7 +71,7 @@ export class OfertasService {
 
       if (deu_erro_na_api){
            // resolve(this.ofertas);
-            setTimeout(()=>{resolve(this.ofertas)}, 3000); //Simulando delay de processamento
+            setTimeout(()=>{resolve(this.ofertas)}, 3000); //3000); //Simulando delay de processamento
       }
       else{
             reject({codigo_erro: 404, mensagem_erro: 'Servidor não encontrado'});
@@ -84,7 +85,7 @@ export class OfertasService {
       //faz mais outras tratativas depois chamada!
       console.log("Segundo THEN");
       return new Promise((resolve2, reject2) =>{
-        setTimeout(()=>{resolve2(ofertas)}, 3000);
+        setTimeout(()=>{resolve2(ofertas)}, 10); //3000);
       });
     })
     .then((ofertas: Oferta[]) => {
