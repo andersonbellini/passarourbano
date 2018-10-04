@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OndeFicaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log('Id da rota filho',this.route.parent.snapshot.parent['id']);
+
   }
 
 }
