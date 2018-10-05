@@ -1,17 +1,27 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { OfertasService } from './../../ofertas.service';
 
 @Component({
   selector: 'app-onde-fica',
   templateUrl: './onde-fica.component.html',
-  styleUrls: ['./onde-fica.component.css']
+  styleUrls: ['./onde-fica.component.css'],
+  providers: [OfertasService]
 })
 export class OndeFicaComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  public ondeFica: string = '';
+
+  constructor(
+      private route: ActivatedRoute,
+      private OfertasService: OfertasService
+    ) { }
 
   ngOnInit() {
-    console.log('Id da rota filho',this.route.parent.snapshot.parent['id']);
+    this.OfertasService.getOndeFicaOfertaPorId(this.route.parent.snapshot.params['id'])
+      .then((descricao: string ) => {
+        this.ondeFica = descricao;
+      });
 
   }
 
