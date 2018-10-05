@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OfertasService } from '../ofertas.service';
 import { Oferta } from '../shared/oferta.model';
+import { interval } from 'rxjs'
+import {} from 'rxjs'
 
 @Component({
   selector: 'app-oferta',
@@ -40,6 +42,13 @@ export class OfertaComponent implements OnInit {
     //    (erro: any) => console.log(erro),
     //    () => console.log("Processamento classificado como concluído !")
     //  );
+
+     let tempo = interval(500);
+
+     tempo.subscribe((resposta:number) => {
+     console.log("Reposta: ",resposta);
+     })
+
 
   }
 
