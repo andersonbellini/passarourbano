@@ -34,6 +34,12 @@ export class OfertaComponent implements OnInit {
     //   //console.log(parametro.id);
     // });
 
+    // *** Usando Observable
+    //  this.route.params.subscribe(
+    //    (parametro: any)=>{ console.log(parametro); },
+    //    (erro: any) => console.log(erro),
+    //    () => console.log("Processamento classificado como concluído !")
+    //  );
 
   }
 
