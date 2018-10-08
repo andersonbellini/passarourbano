@@ -1,8 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OfertasService } from '../ofertas.service';
 import { Oferta } from '../shared/oferta.model';
-import { interval } from 'rxjs'
+import { Observable, Observer } from 'rxjs'
 import {} from 'rxjs'
 
 @Component({
@@ -43,12 +44,30 @@ export class OfertaComponent implements OnInit {
     //    () => console.log("Processamento classificado como concluído !")
     //  );
 
+    /*
      let tempo = interval(500);
 
      tempo.subscribe((resposta:number) => {
      console.log("Reposta: ",resposta);
      })
+*/
 
+     //Observavel
+    let meuObservableTeste = Observable.create((observer: Observer<number>) =>{
+      observer.next(1);
+      observer.next(2);
+
+      observer.complete();
+      //observer.error('Algum erro encontrado na stream de eventos');
+      observer.next(3);
+    })
+
+      //Observador
+     meuObservableTeste.subscribe(
+       (resultado: any) => console.log(resultado + 10),
+       (erro: string ) => console.log(erro),
+       () => console.log('Stream de evento finalizada')
+     )
 
   }
 
