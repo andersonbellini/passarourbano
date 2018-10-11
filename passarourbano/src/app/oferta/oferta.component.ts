@@ -3,8 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OfertasService } from '../ofertas.service';
 import { Oferta } from '../shared/oferta.model';
-import { Observable, Observer, Subscription, interval } from 'rxjs'
-import {} from 'rxjs'
+//import { Observable, Observer, Subscription, interval } from 'rxjs'
+//import {} from 'rxjs'
 
 @Component({
   selector: 'app-oferta',
@@ -15,8 +15,8 @@ import {} from 'rxjs'
 export class OfertaComponent implements OnInit, OnDestroy {
 
 
-  private tempObservableSubscription: Subscription;
-  private meuObservableTesteSubscription: Subscription;
+  // private tempObservableSubscription: Subscription;
+  // private meuObservableTesteSubscription: Subscription;
 
   public oferta: Oferta;
 
