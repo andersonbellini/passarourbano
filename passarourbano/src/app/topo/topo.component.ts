@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+
 import { OfertasService } from '../ofertas.service';
 import { Oferta } from '../shared/oferta.model';
 
@@ -12,9 +15,20 @@ import { Oferta } from '../shared/oferta.model';
 export class TopoComponent implements OnInit {
 
   public ofertas: Observable<Oferta[]>
+  private subjectPesquisa: Subject<string> = new Subject<string>()
+
   constructor(private ofertasService: OfertasService) { }
 
   ngOnInit() {
+     //retorno Oferta[]
+      this.ofertas = this.subjectPesquisa.pipe(
+        switchMap((termo: string) => {
+          console.log('Requisição http para API: ', termo);
+          return this.ofertasService.pesquisaOfertas(termo);
+        })
+      )
+      this.ofertas.subscribe((ofertas: Oferta[]) => { console.log('ofertas: ', ofertas); } )
+
   }
 
     // public pesquisa(termoDaPesquisa : string): void {
@@ -29,19 +43,23 @@ export class TopoComponent implements OnInit {
 
     public pesquisa(termoDaBusca: string) : void {
 
-      // Observavel
-      this.ofertas = this.ofertasService.pesquisaOferta(termoDaBusca)
+      //console.log('keyuo caracter ', termoDaBusca);
+      // // Observavel
+      // this.ofertas = this.ofertasService.pesquisaOferta(termoDaBusca)
 
-      // Observador
-      this.ofertas.subscribe(
-        (ofertas: Oferta[]) => {
-          console.log(ofertas)
-        },
-        (error: string) => {
-          console.log("Erro na pesquisa. Erro: " + error)
-        }, () => {
-          console.log("Termino do fluxo da stream")
-        })
+      // // Observador
+      // this.ofertas.subscribe(
+      //   (ofertas: Oferta[]) => {
+      //     console.log(ofertas)
+      //   },
+      //   (error: string) => {
+      //     console.log("Erro na pesquisa. Erro: " + error)
+      //   }, () => {
+      //     console.log("Termino do fluxo da stream")
+      //   })
+
+      this.subjectPesquisa.next(termoDaBusca);
+
     }
 
 }
