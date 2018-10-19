@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { switchMap } from 'rxjs/internal/operators/switchMap';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { OfertasService } from '../ofertas.service';
@@ -22,22 +22,28 @@ export class TopoComponent implements OnInit {
   constructor(private ofertasService: OfertasService) { }
 
   ngOnInit() {
-     //retorno Oferta[]
-      this.ofertas = this.subjectPesquisa.pipe(
-        debounceTime(1000), //Executa a ação do switchMap após 1s
-        distinctUntilChanged(),
-        switchMap((termo: string) => {
-          console.log('Requisição http para API: ', termo);
+    //retorno Oferta[]
+    this.ofertas = this.subjectPesquisa.pipe(
+      debounceTime(1000), //Executa a ação do switchMap após 1s
+      distinctUntilChanged(), //busca se o termo for diferente do anterior
+      switchMap((termo: string)=>{
+        console.log('Requisição http para API: ', termo);
 
-          if(termo.trim() === ''){
-            //retornar observable de array de ofertas vazio
-            //return Observable.of<Oferta[]>([]]); //Usando no Angular 4
-            return of<Oferta[]>([]); // No Angular 6 - para não pesquisar a base full
-          }
+        if(termo.trim() === ''){
+          //return Observable.of<Oferta[]>([]]); //Usando no Angular 4
+          //return of<Oferta[]>([]); // No Angular 5 - para não pesquisar a base full
 
-          return this.ofertasService.pesquisaOfertas(termo);
-        })
-      )
+          //retornar um observable de array de ofertas vazio (Angular 6)
+          return of([])
+        }
+        return this.ofertasService.pesquisaOfertas(termo)
+      }),
+      catchError ((erro)=> {
+        console.log(erro)
+        return of([])
+      })
+    )
+
       this.ofertas.subscribe((ofertas: Oferta[]) => { console.log('ofertas: ', ofertas); } )
 
   }
