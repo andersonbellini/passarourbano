@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { switchMap } from 'rxjs/internal/operators/switchMap';
-import { debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
+// Foi criado uma classe de rxjs-extensions para importar um agrupamento dos imports
+// import '../utils/rxjs-extensions';
+import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { OfertasService } from '../ofertas.service';
