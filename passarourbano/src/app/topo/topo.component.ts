@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { debounceTime } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { OfertasService } from '../ofertas.service';
 import { Oferta } from '../shared/oferta.model';
@@ -23,9 +24,16 @@ export class TopoComponent implements OnInit {
   ngOnInit() {
      //retorno Oferta[]
       this.ofertas = this.subjectPesquisa.pipe(
-        debounceTime(1000),
+        debounceTime(1000), //Executa a ação do switchMap após 1s
         switchMap((termo: string) => {
           console.log('Requisição http para API: ', termo);
+
+          if(termo.trim() === ''){
+            //retornar observable de array de ofertas vazio
+            //return Observable.of<Oferta[]>([]]); //Usando no Angular 4
+            return of<Oferta[]>([]); // No Angular 6 - para não pesquisar a base full
+          }
+
           return this.ofertasService.pesquisaOfertas(termo);
         })
       )
@@ -45,7 +53,7 @@ export class TopoComponent implements OnInit {
 
     public pesquisa(termoDaBusca: string) : void {
 
-      //console.log('keyuo caracter ', termoDaBusca);
+      console.log('keyup caracter ', termoDaBusca);
       // // Observavel
       // this.ofertas = this.ofertasService.pesquisaOferta(termoDaBusca)
 
