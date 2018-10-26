@@ -3,6 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OfertasService } from '../ofertas.service';
 import { Oferta } from '../shared/oferta.model';
+import { Observer, Observable } from 'rxjs';
+
 //import { Observable, Observer, Subscription, interval } from 'rxjs'
 //import {} from 'rxjs'
 
@@ -37,7 +39,25 @@ export class OfertaComponent implements OnInit, OnDestroy {
         //console.log(oferta);
         this.oferta = oferta;
      });
+
+     ////Outro exemplo de stream
+      //Observavel
+      let meuObservableTeste = Observable.create((observer: Observer<number>) => {
+        observer.next(1);
+        observer.next(3);
+        //observer.error('Algum erro foi encontrado na stream de eventos');
+        observer.complete();
+      });
+
+      //Observador
+      meuObservableTeste.subscribe(
+        (resultado:any) => console.log(resultado + 10),
+        (erro: string) => console.log(erro),
+        () => { console.log('Stream de eventos finalizada! ');}
+      )
+
     }
+
 
 //     // *** Usando subscribe
 //     // this.route.paramMap.subscribe((parametro: any) => {
@@ -103,5 +123,8 @@ export class OfertaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
   }
+
+
+
 
 }
